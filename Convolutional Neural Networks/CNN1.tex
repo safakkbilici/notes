@@ -8,26 +8,30 @@
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{subfig}
+
 \usepackage{apacite}
+
+
 \usepackage[margin=1.5in]{geometry}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 \DeclareMathOperator{\EX}{\mathbb{E}}
-
 \begin{document}
 \title{\line(1,0){250} \\ \huge{\textbf{Convolutional Neural Networks}} \\\line(1,0){250}}
 \author{\textbf{M. Şafak Bilici}}
 \maketitle
 \bibliographystyle{apacite}
+\tableofcontents
 
-\section{1 What is Convolutional Neural Networks?}
+\section{What is Convolutional Neural Networks?}
 \hspace*{1cm} Convolutional Neural Networks was proposed by Yann Lecun in 1989. CNNs are specialized kind of neural networks for processing data that has a know, gird-like topology. Examples include time-series data, which can be thought of as a 1D grid taking samples at regular time intervals, and image data, which can be thought as a 2D grid of pixels. CNNs are a category of Neural Networks that have proven very effective in areas such as image recognition and classification. The vast majority of applications of CNNs focus on image data, although one can also ose these networks for all types of temporal, spatial and spatiotemporal data.\cite{GoodBengCour16}\\
 Early motivation for CNNs was derived from experiments by Hubel and Wiesel on a cat's visual cortex. The visual cortex has small regions of cells that are sensitive to specific regions in the visual field. In other words, if the specific areas of the visual field are excited, then those cells in the visual cortex will be activated as well. For example, vertical edges cause some neuronal cells to excited, whereas horizontal edges cause other neuronal cells to be excited. The cells are connected using layered architecture, and this discovery led to the conjecture that mammals use these different layers to construct portions of images at different levels of abstraction. From machine learning point of view, this principle is similiar to that hierarchical feature extraction. CNNs achieve something similiar by encoding primitive shapes in earlier layers, and more complex shapes in later layers (Charu C. Aggarwal 2018).
 Based on this biological inspirations, the earliest neural model was the Neocognitron by Kunihiko Fukushima in 1979. However, there were several differences between this model and the modern CNNs. The most prominent of these differences was that the notion of weight sharing was not used. Based on this architecture, one of the first fully convolutional architectures, referred to as LeNet-5 was developed by Yann Lecun in 1989. The later works will be discussed. 
-\section{2 The Convolution Operator}
+\section{The Convolution Operator}
 \hspace*{1cm} In mathematics, convolution is a mathematical operation on two or more than two functions that produces a new function expressing how the shape of one is modified by the others. Usually, the convolution operation used in CNNs does not correspond precisely to the definition of convolution as used in other fields such as engineering (signal processing) or pure mathematics.\\
 Suppose that you are James T. Kirk from Start Trek, and you are captured in a planet, you want to track the location of USS Enterprise with a laser sensor. The laser sensor provides a single output $x(t)$, the position of the Enterprise at time $t$. Bot $x$ and $t$ are real-valued, i.e., you can get a different reading from the laser sensor at any instant time. Now suppose that your laser sensor is somewhat noisy. To obtain a less noisy estimate of the Enterprise's position, we would like to average together several measurements. Of course, more recent measurements are more relevant, so we will want this with a weighted average that gives more weight to recent measurements. If we apply such as weighted average operation at every moment, we obtain a new function $s$ providing a smoothed estimate of the position of spaceship:
 $$ s(t) = \int x(t_0)w(t-t_0)dt_0$$
@@ -65,7 +69,7 @@ $\approx$
 \end{tabular}
 \end{center}
 The convolution on engineering, signal processing is a very large subject to study. It will be shown more later.
-\subsection{2.1 Convolution With Lena}
+\subsection{Convolution With Lena}
 \begin{figure}[H]
     \centering
     \subfloat[Input: Colored Lena]{{\includegraphics[width=5cm]{lena.png} }}%
@@ -78,9 +82,9 @@ The convolution on engineering, signal processing is a very large subject to stu
 
 
 
-\section{3 More On Convolutional Neural Networks}
+\section{More On Convolutional Neural Networks}
 \hspace*{1cm}CNNs combine three architectural ideas to ensure some degree of shift, scale, and distrotion invariance: local receptive fields, shared weights, and spatial or temporal sub-sampling. Classifying images can be done with an ordinary fully connected feed-forward network. But there will be problems. Firstly, typical images may contain hundreds or millions of pixels. This refers to there may be too much dimensions on the input data. A fully-connected first layer with, say one hundred hidden units in the first layer, would already contain several tens of thousand weights. Such a large number of parameters increases the capacity of the system and therefore requires a larger training set. In addition, the memory requirement to strore many weights may rule out certain hardware implementations. Secondly, a deficiency of fully-connected architectures is that the topology of the input is entirely ignored. The input variables can be presented in any (fixed) order without affecting the outcome of the training. On the contrary, images have a strong 2D local structure: pixels that are spatially or temporally nearby are highly correlated. Local correlations are the reasons for the well-known advantages of extracting and combining local features before recognizing spatial or temporal objects, before configurations of neighboring pixels can be classified into a small number of categories as edges, corners etc. \cite{lecun1998gradient}
-\section{4 Pooling}
+\section{Pooling}
 \hspace*{1cm} A CNN architecture consists three stages. The first one convolution, the second is the non-linear activation, such as ReLU, the third one is pooling (sub-sampling) to modify the output of the layer further. A pooling function replaces the output of the net at a certaion location with a summary of statistic of the nearby outputs. For example the max pooling, was proposed by Zhou and Chellappa in 1988, operation finds the maximum element within a rectangular or square neighborhood. Other popular pooling functions include the average pooling, the $L^2$ norm of a rectangular or square neighborhood, or weighted average pooling based on the discance from the central pixel.\cite{GoodBengCour16}\\
 In all cases, pooling helps to make the representation become approximately invariant to small translations of the input. Invariance to translation means that if we translate the input by small amount, the values of most of the pooled outputs do not change. You can see a Lena example:
 \begin{figure}[htp]
@@ -123,7 +127,7 @@ Pooling can be complicate some kinds of neural networks architectures that use t
 \caption{}
 \label{fig:figure3}
 \end{figure}
-\section{5 Padding}
+\section{Padding}
 \hspace*{1cm} One observation is that the convolution operation reduces the size of $(q+1)$th layer in comparsion with the size of the $q$th layer. This type of reduction in size is not desirable in general, because it tends to lose some information along the borders of the image (or feature map in the hidden layers). This problem can be resolved by using the padding. Kernel size in the layer $q$ denoted as $K_q$; in padding, one adds $(K_q-1)/2$ "pixels" all around the borders of the image-feature map in order to maintain the spatial footprint. Note that these pixels are really feature values in the case of the padding hidden layers. The value of each of each of these padded feature values is set to 0, irrespective of whether the input or the feature maps at the hidden layers are being padded. As a result, the spatial height and width of the input volume will both increase by $(K_q-1)$, which is exactly what they reduce by (in the output volume) after the convolution is performed. The padded portions do not contribute to the final dot product due to their values are set to 0. 
 
 \begin{figure}[H]
@@ -145,7 +149,7 @@ This relationship is not a coincidence because a "reverse" convolution operation
 \label{fig:figure3}
 \end{figure}
 
-\section{6 Stride}
+\section{Stride}
 \hspace*{1cm} There are other ways in which convolution can reduce the spatial footprint of the image. It is not necessary to perform the convolution at every spatial position in the layer. One can reduce the level of granularity of the convolution by using the notion of strides. When a stride of $S_q$ is used in the $q$th layer, the convolution is performed at the locations 1, $S_q+1$, $2S_q+1$, and so on along both spatial dimensions of the layer. The spatial size of the output on performing this convolution has height of $(H_q - K_q)/S_q + 1$ and a width of $(W_q - K_q)/S_q + 1$. \\
 It is most common to use a stride of 1, although a stride of 2 is occasionally used as well. It is rare to use strides more than 2 in normal circumstances. Even though a stride of 4 was used in the input layer of the winning architecture of the ILSVRC (ImageNet Large Scale Visual Recognition Challenge) competition of 2012, the winning entry in the subsequent year reduced the stride to 2 to improve accuracy. Larger strides can be helpful in memory-constrained settings or to reduce overfitting if the spatial resolution is unnecessarily high. Strides have the effect of rapidly increasing the receptive field of each feature in the hidden layer, while reducing the spatial footprint of the entire layer.
 \begin{figure}[H]
@@ -160,7 +164,7 @@ It is most common to use a stride of 1, although a stride of 2 is occasionally u
 \caption{Padding + Convolution with 3$\times$3 kernel size with stride 1.}
 \label{fig:figure3}
 \end{figure}
-\section*{7 Useful Practical Formulas for Implementations}
+\section*{Useful Practical Formulas for Implementations}
 
 \begin{figure}[H]
 \centering
@@ -169,7 +173,7 @@ It is most common to use a stride of 1, although a stride of 2 is occasionally u
 \label{fig:figure3}
 \end{figure}
 In this section, we will discuss the formulas we got in previous sections. Due to convolutions, paddings, strides and poolings; the size of the image is always changing in layers. We had showed the changing the size of the image, now we try to do some formulation.
-\subsection{7.1 Convolution Layer}
+\subsection{Convolution Layer}
 \hspace*{1cm} An image accepts a volume of size $W_1 \times H_1 \times D_1$:
 \\
 \\
@@ -187,7 +191,7 @@ $\rightarrow$ Produces A Volume of Size $W_2 \times H_2 \times D_2$:
 	\item $D_2 = K$
 \end{itemize}
 
-\subsection{7.2 Pooling Layer}$\rightarrow$ Required Hyperparameters:
+\subsection{Pooling Layer}$\rightarrow$ Required Hyperparameters:
 \begin{itemize}
 	\item Kernel's Spatial Extent $F$
 	\item Stride $S$
@@ -213,7 +217,7 @@ When machine learning library is implemented, this formulas have to be considere
 \label{fig:figure3}
 \end{figure}
 
-\section{8 Batch Normalization}
+\section{Batch Normalization}
 \hspace*{1cm} Batch normalization is a recent method to address the vanishing and exploding gradient problems, which cause activation gradients in
 successive layers to either reduce or increase in magnitude. Another very imprortant problem in training a deep learning model is that of internal covariate shift. The problem is that the parameters change during training, and therefore the hidden variable activations change as well. In other words, the hidden inputs from early layers to later layers keep changing. Changing inputs from early layers to later layers causes slower convergence during training because the training data for later layers is not stable. Batch Normalization reduces this effect.(Charu C. Aggarwal, 2018) \\
 In Batch Normalization, the idea is to add additional "normalization layers" between hidden layers that resist this type of behavior by creating features with somewhat similiar variance. We normalize the input layer by adjusting and scaling the activations. For example, when we have features from 0 to 1 and some from 1 to 1000, we should normalize them to speed up learning. If the input layer is benefiting from it, why not do the same thing also for the values in the hidden layers, that are changing all the time, and get 10 times or more improvement in the training speed. \cite{ioffe2015batch} 
@@ -255,7 +259,7 @@ $$\hspace{1.3cm}=-\frac{\gamma_i}{\mu_i}\sum_{j=1}^{m}\frac{\partial L}{\partial
 This equations provides us a full view of the backpropagation of the loss through the batch normalization layer corresponding to the BN node. The other aspects of bacpropagation remain similiar to traditional case. Also batch normalization enables faster inference because it prevents problems such as the exploding and vanishing gradient which cause slow learning. A natural question about batch normalization arises during prediction time. Since the transformation parameters $\mu_i$ and $\sigma_i$ depend on natch, how should one compute them during testing when a single test instance is available? In this case, the values of $\mu_i$ and $\sigma_i$ are computed up front using the entire population, and then treated these values as constants during testing time. \\
 An interesting property of batch normalization is that it also acts as a regularizer. Note that same data point can cause somewhat different updates depending on which batch it is included in. One can view this effect as a king of noise added to the update process. Regularization is often achieved by adding a small amount of noise to the training data. It has been experimentally observed that regularization methods like Dropout do not seem to improve perfomance when batch normalization is used although there is not a complete agreement on this point. Batch normalization is oftenly used in CNNs. 
 
-\section{9 The ReLU Layer}
+\section{The ReLU Layer}
 \hspace*{1cm} Rectified Linear Unit, also denoted as ReLU, is an commonly used activation function in Deep Learning methods. The ReLU is mathematically defined as, $$f(x) = x^+ = max(0,x)$$
 visually look like,
 \begin{figure}[H]
@@ -265,9 +269,9 @@ visually look like,
 \label{fig:figure3}
 \end{figure}
 \pagebreak
-\subsection{9.1 Limitations of Sigmoid and Tanh Activation Functions}
+\subsection{Limitations of Sigmoid and Tanh Activation Functions}
 \hspace*{1cm} Nonlinear activation functions are preferred as they allow the nodes to learn more complex structures in the data. Traditionally, two widely used nonlinear activation functions are the sigmoid and hyperbolic tangent activation functions. The sigmoid activation function, also called the logistic function, is traditionally a very popular activation function for neural networks. The input to the function is transformed into a value between 0.0 and 1.0. Inputs that are much larger than 1.0 are transformed to the value 1.0, similarly, values much smaller than 0.0 are snapped to 0.0. The shape of the function for all possible inputs is an S-shape from zero up through 0.5 to 1.0. For a long time, through the early 1990s, it was the default activation used on neural networks. The hyperbolic tangent function, or tanh for short, is a similar shaped nonlinear activation function that outputs values between -1.0 and 1.0. In the later 1990s and through the 2000s, the tanh function was preferred over the sigmoid activation function as models that used it were easier to train and often had better predictive performance. A general problem with both the sigmoid and tanh functions is that they saturate. This means that large values snap to 1.0 and small values snap to -1 or 0 for tanh and sigmoid respectively. Further, the functions are only really sensitive to changes around their mid-point of their input, such as 0.5 for sigmoid and 0.0 for tanh. The limited sensitivity and saturation of the function happen regardless of whether the summed activation from the node provided as input contains useful information or not. Once saturated, it becomes challenging for the learning algorithm to continue to adapt the weights to improve the performance of the model. \textit{Finally, as the capability of hardware increased through GPUs’ very deep neural networks using sigmoid and tanh activation functions could not easily be trained.}
-\subsection{9.2 Moreover About ReLU and Convolutional Neural Networks}
+\subsection{Moreover About ReLU and Convolutional Neural Networks}
 \hspace*{1cm} The concolution operator is interleaved with the pooling and ReLU operations. The ReLU is not very different from how it is applied in traditional neural networks. For each of the $W_q \times H_q \times D_q$ values in a layer, the ReLU activation function is applied to it to create $W_q \times H_q \times D_q$ thresholded values. These values are then passed onto the next layer. Therefore applying ReLU does not change the dimensions of a layer because it is a simple one-to-one mapping of activation values. The purpose of applying the rectifier function is to increase the non-linearity in our images. The reason we want to do that is that images are naturally non-linear. When you look at any image, you'll find it contains a lot of non-linear features (e.g. the transition between pixels, the borders, the colors, etc.). ReLU is an element wise operation (applied per pixel) and replaces all negative pixel values in the feature map by zero. The purpose of ReLU is to introduce non-linearity in our ConvNet, since most of the real-world data we would want our ConvNet to learn would be non-linear (Convolution is a linear operation – element wise matrix multiplication and addition, so we account for non-linearity by introducing a non-linear function like ReLU).	
 \begin{figure}[H]
     \centering
@@ -277,7 +281,7 @@ visually look like,
     \caption{The ReLU Layer}%
     \label{fig:example}
 \end{figure}
-\section{10 Fully Connected Layers and Flattening}
+\section{Fully Connected Layers and Flattening}
 \begin{figure}[H]
 \centering
 \includegraphics[width=14cm]{fullyc.png}
@@ -295,7 +299,7 @@ Flattening the final feature map can be viewed as, transforming image $W \times 
 \label{fig:figure3}
 \end{figure}
 
-\section{11 A Practical Example: MNIST}
+\section{A Practical Example: MNIST}
 \hspace*{1cm}The MNIST database is a large database of handwritten digits that is commonly used for training various image processing systems. The database is also widely used for training and testing in the field of machine learning. The MNIST database contains 60,000 training images and 10,000 testing images.
 \begin{figure}[H]
 \centering
@@ -355,7 +359,7 @@ The pseudo-code of this process will be more helpful to imagine:
 	\Return out
 \end{algorithmic}
 \end{algorithm}
-\section{12 Dropout}
+\section{Dropout}
 \hspace*{1cm} Dropout provides us that a computationally inexpensive but powerful method of regularizing a broad family of models. To a first approximation, dropout can be thought of as a method of making bagging practical for ensembles of very many large neural networks. Bagging involves training multiple models, and evaulating multiple models on each test example. This seems impractical when each model is a large neural network, since training and evaulating such networks costly in terms of runtime and memory. It is common to use ensembles of five to ten neural networks but more than this rapidly becomes unwidely. Dropout provides an inexpensive approximation to training and evaulating a bagged ensemble of exponentially many neural netwoks.\\
 Specifically, dropout trains the ensemble consisting of all sub-networks that
 can be formed by removing non-output units from an underlying base network. In most modern neural networks, based on a series ofaffine transformations and nonlinearities, we can effectively remove a unit from a network by multiplying its output value by zero. This procedure requires some slight modification for models such as RBF Networks. Here, we present
@@ -375,7 +379,20 @@ learning update as usual.
 \label{fig:figure3}
 \end{figure}
 More mathematically, suppose we have a mask vector $\mu$ specifies which units to include, and $L(\theta,\mu)$ is the loss function of the model with parameters $\theta$ and mask $\mu$. Then dropuout training consists in minimizing $\EX_\mu L(\theta,\mu)$ \cite{GoodBengCour16}
+\subsection{Difference Between Bagging}
+\hspace*{1cm} Dropout method are not quite same as as bagging methods in Machine Learning. In baggigng methods, each model are independent from each others. But in the dropout methods, models share parameters, with each model inheriting a different subset of parameters from the parent neural network \cite{GoodBengCour16}. You can see this in the figure 16 above. The left image is the parent network and each model is inheriting all possible subset of paramters.
+\subsection{Probabilistic Inference}
+\hspace*{1cm}To make a prediction, a bagged ensemble must accumulate votes from all of its members.\\
+In the case of bagging, each model $i$ produces a PDF $p^{(i)}(y|x)$. The prediction of this ensemble is given by mean of all of this distributions:
+$$\frac{1}{k}\sum_{i=1}^kp^{(i)}(y|x)$$
+In the case of dropout, each sub-model defined by mask vector $\mu$ defines a probability distribution $p(y|x,\mu)$. The mean over all masks given by:
+$$\sum_{\mu}p(\mu)p(y|x,\mu)$$ 
+where $p(\mu)$ is the PDF that was used to sample $\mu$ at training time. 
+
 \bibliography{References}
 Charu C. Aggarwal (2018). \textit{Neural Networks and Deep Learning}. Springer International Publishing.\\\\
 https://cs231n.github.io/
+
+
+
 \end{document}
