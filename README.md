@@ -15,6 +15,7 @@ All subject files contain 3 main file:
 
 # School Notes
 This drive link contains notes on all lectures I had taken:
+
 https://drive.google.com/open?id=1c0O850VdoBiUe_dVX_A7p6qyyd2cmGD3
 
 
