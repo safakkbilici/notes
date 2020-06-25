@@ -21,12 +21,17 @@
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 \DeclareMathOperator{\EX}{\mathbb{E}}
 \begin{document}
-\title{\line(1,0){250} \\ \huge{\textbf{Convolutional Neural Networks}} \\\line(1,0){250}}
-\author{\textbf{M. Şafak Bilici}}
+\title{\centerline{\rule{13cm}{2pt}} \textbf{Convolutional Neural Networks}\\\centerline{\rule{13cm}{0.4pt}}}
+\author{
+  BILICI, M. Şafak\\
+  \texttt{safakk.bilici.2112@gmail.com}}
+
 \maketitle
 \bibliographystyle{apacite}
 \tableofcontents
-
+\begin{abstract}
+\textbf{In this overview paper, we will discuss a kind of neural network that is called Convolutional Neural Networks, such that they are generally used in Image Recognition tasks. This paper focuses on theoretical foundations of Convolutional Neural Networks and some of Deep Learning methods that can be used in Convolutional Neural Networks. Also a practical Image Recognition application will be discussed in section 11.}
+\end{abstract}
 \section{What is Convolutional Neural Networks?}
 \hspace*{1cm} Convolutional Neural Networks was proposed by Yann Lecun in 1989. CNNs are specialized kind of neural networks for processing data that has a know, gird-like topology. Examples include time-series data, which can be thought of as a 1D grid taking samples at regular time intervals, and image data, which can be thought as a 2D grid of pixels. CNNs are a category of Neural Networks that have proven very effective in areas such as image recognition and classification. The vast majority of applications of CNNs focus on image data, although one can also ose these networks for all types of temporal, spatial and spatiotemporal data.\cite{GoodBengCour16}\\
 Early motivation for CNNs was derived from experiments by Hubel and Wiesel on a cat's visual cortex. The visual cortex has small regions of cells that are sensitive to specific regions in the visual field. In other words, if the specific areas of the visual field are excited, then those cells in the visual cortex will be activated as well. For example, vertical edges cause some neuronal cells to excited, whereas horizontal edges cause other neuronal cells to be excited. The cells are connected using layered architecture, and this discovery led to the conjecture that mammals use these different layers to construct portions of images at different levels of abstraction. From machine learning point of view, this principle is similiar to that hierarchical feature extraction. CNNs achieve something similiar by encoding primitive shapes in earlier layers, and more complex shapes in later layers (Charu C. Aggarwal 2018).
@@ -100,6 +105,7 @@ In all cases, pooling helps to make the representation become approximately inva
 Left one is Lena image with size of 512$\times$512, middle one is average pooling Lena, right one is max pooling Lena; with the kernel size of eight.
 \\
 \par\noindent\rule{\textwidth}{0.5pt}
+\pagebreak
 You can see the source code of the pooling layer:\\
 \begin{lstlisting}[language=Python,basicstyle=\tiny]
 import numpy as np
