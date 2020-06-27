@@ -12,7 +12,8 @@
 \usepackage{apacite}
 
 
-\usepackage[margin=1.5in]{geometry}
+\usepackage[top=0.5in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{algorithm}
@@ -21,7 +22,7 @@
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 \DeclareMathOperator{\EX}{\mathbb{E}}
 \begin{document}
-\title{\centerline{\rule{13cm}{2pt}} \textbf{Convolutional Neural Networks}\\\centerline{\rule{13cm}{0.4pt}}}
+\title{\centerline{\rule{15cm}{2pt}} \textbf{An Overview Of Convolutional Neural Networks}\\\centerline{\rule{15cm}{0.4pt}}}
 \author{
   BILICI, M. Şafak\\
   \texttt{safakk.bilici.2112@gmail.com}}
@@ -105,7 +106,7 @@ In all cases, pooling helps to make the representation become approximately inva
 Left one is Lena image with size of 512$\times$512, middle one is average pooling Lena, right one is max pooling Lena; with the kernel size of eight.
 \\
 \par\noindent\rule{\textwidth}{0.5pt}
-\pagebreak
+
 You can see the source code of the pooling layer:\\
 \begin{lstlisting}[language=Python,basicstyle=\tiny]
 import numpy as np
@@ -274,14 +275,14 @@ visually look like,
 \caption{The ReLU.}
 \label{fig:figure3}
 \end{figure}
-\pagebreak
+
 \subsection{Limitations of Sigmoid and Tanh Activation Functions}
 \hspace*{1cm} Nonlinear activation functions are preferred as they allow the nodes to learn more complex structures in the data. Traditionally, two widely used nonlinear activation functions are the sigmoid and hyperbolic tangent activation functions. The sigmoid activation function, also called the logistic function, is traditionally a very popular activation function for neural networks. The input to the function is transformed into a value between 0.0 and 1.0. Inputs that are much larger than 1.0 are transformed to the value 1.0, similarly, values much smaller than 0.0 are snapped to 0.0. The shape of the function for all possible inputs is an S-shape from zero up through 0.5 to 1.0. For a long time, through the early 1990s, it was the default activation used on neural networks. The hyperbolic tangent function, or tanh for short, is a similar shaped nonlinear activation function that outputs values between -1.0 and 1.0. In the later 1990s and through the 2000s, the tanh function was preferred over the sigmoid activation function as models that used it were easier to train and often had better predictive performance. A general problem with both the sigmoid and tanh functions is that they saturate. This means that large values snap to 1.0 and small values snap to -1 or 0 for tanh and sigmoid respectively. Further, the functions are only really sensitive to changes around their mid-point of their input, such as 0.5 for sigmoid and 0.0 for tanh. The limited sensitivity and saturation of the function happen regardless of whether the summed activation from the node provided as input contains useful information or not. Once saturated, it becomes challenging for the learning algorithm to continue to adapt the weights to improve the performance of the model. \textit{Finally, as the capability of hardware increased through GPUs’ very deep neural networks using sigmoid and tanh activation functions could not easily be trained.}
 \subsection{Moreover About ReLU and Convolutional Neural Networks}
 \hspace*{1cm} The concolution operator is interleaved with the pooling and ReLU operations. The ReLU is not very different from how it is applied in traditional neural networks. For each of the $W_q \times H_q \times D_q$ values in a layer, the ReLU activation function is applied to it to create $W_q \times H_q \times D_q$ thresholded values. These values are then passed onto the next layer. Therefore applying ReLU does not change the dimensions of a layer because it is a simple one-to-one mapping of activation values. The purpose of applying the rectifier function is to increase the non-linearity in our images. The reason we want to do that is that images are naturally non-linear. When you look at any image, you'll find it contains a lot of non-linear features (e.g. the transition between pixels, the borders, the colors, etc.). ReLU is an element wise operation (applied per pixel) and replaces all negative pixel values in the feature map by zero. The purpose of ReLU is to introduce non-linearity in our ConvNet, since most of the real-world data we would want our ConvNet to learn would be non-linear (Convolution is a linear operation – element wise matrix multiplication and addition, so we account for non-linearity by introducing a non-linear function like ReLU).	
 \begin{figure}[H]
     \centering
-    \subfloat[Input and Convolved Image]{{\includegraphics[width=6cm]{relufm.jpg} }}%
+    \subfloat[Input and Convolved Image]{{\includegraphics[width=9cm]{relufm.jpg} }}%
     \qquad
     \subfloat[Applying ReLU]{{\includegraphics[width=5cm]{afterrelu.png} }}%
     \caption{The ReLU Layer}%
@@ -377,7 +378,7 @@ learning update as usual.
 \includegraphics[width=7.5cm]{dropout.png}
 \caption{Bagging Approximation.}
 \label{fig:figure3}
-\end{figure}\pagebreak
+\end{figure}
 \begin{figure}[H]
 \centering
 \includegraphics[width=4cm]{dropout2.png}
