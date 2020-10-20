@@ -33,7 +33,7 @@
   BILICI, M. Şafak\\
   \texttt{safakk.bilici.2112@gmail.com}}
 \maketitle
-\textbf{\textit{Abstract--}} \textbf{Autoencoders are an unsupervised learning architectures in neural networks. Theys are commonly used in Deep Learning tasks; such as generative models, anomaly detection, dimensionality reduction. In this article, we will evaluate theoretical approaches of Autoencoders and see it's extensions.}
+\textbf{\textit{Abstract-}} \textbf{Autoencoders are an unsupervised learning architectures in neural networks. Theys are commonly used in Deep Learning tasks; such as generative models, anomaly detection, dimensionality reduction. In this article, we will evaluate theoretical approaches of Autoencoders and see it's extensions.}
 
 \section{1 Introduction}
 \hspace*{0.5cm} Autoencoders are an unsupervised learning method. They map the input data into lower dimensional space with encoder $E$, and then maps into same space that have same dimension of input data with decoder $D$.\\
@@ -105,7 +105,7 @@
     \end{tikzpicture}
 The main idea behind Autoencoders is to attempt to copy its input to its output. The input layer is fed with input vector $\mathbf{x}$ and the loss is calculated at output layer between $\mathbf{x}$ and $E(D(\mathbf{x}))$, in other words the loss is $L(\mathbf{x},E(D(\mathbf{x})))$. It measures difference between our original input and the consequent reconstruction.  We named the middle layer, that is connection between encoder $E$ and decoder $D$, as the "bottleneck". We can denote our output of bottleneck as $\mathbf{h} = E(\mathbf{x})$ and denote our output as $\mathbf{\hat{x}} = D(\mathbf{h}) = D(E(\mathbf{x}))$. We can define our encoder and decoder as conditional probability density function that are $p_{encoder}(\mathbf{h} | \mathbf{x})$ and $p_{decoder}(\mathbf{\hat{x}} | \mathbf{h})$. \\
 The loss function is named reconstruction loss which is $L(\mathbf{\hat{x}},\mathbf{x})$. We can treat the process as a feedforward networks; the loss can be minimized via mini-batch statistics following gradients computed by backpropagation algorithm,
-$$\min\limits_{\theta} L = \nabla_\theta L(\mathbf{x}, E(D(\mathbf{x}))) =\nabla_\theta L(\mathbf{x}, \mathbf{\hat{x}}) $$
+$$\min\limits_{\theta} L = \nabla_\theta L(\mathbf{x}, D(E(\mathbf{x}))) =\nabla_\theta L(\mathbf{x}, \mathbf{\hat{x}}) $$
 The bottleneck is the key of the effectiveness of Autoencoders. We map our input vector to bottleneck: the bottleneck keeps the 'latent informations' of input $\mathbf{x}$. The network represents input but in lower dimensions. In other words, it behaves like a approximative compression algorithm. The encoding parameters are learned in training process. Then we map bottleneck information $\mathbf{h}$ into same dimension as input $\mathbf{x}$. Then, this procedure can be seen as approximative extracting compressed latent information.
 
 \section{2 Undercomplete Autoencoders}	
@@ -131,6 +131,168 @@ The bottleneck is the key of the effectiveness of Autoencoders. We map our input
 \subsection{2.1 Problem of Autoencoders}
 When we said that main idea behind autoencoders is to copy input to its output, the key idea is that not to copy without extracting useful informations about the distribution of the data. Autoencoders are allowed too much capacity, easy to be trained to the copying the task with learning anything useful about the dataset. So we need to penalize those autoencoders.
 
-\section{3 Regularized Autoencoders}
-As we said, 
+\section{3 Regularizations}
+As we said, autoencoders are allowerd too much capacity. Regularized autoencoders can give us the task that find the latent features of input, instead of copying the input. There are lot of regularization methods to prevent copying task such as Sparse Autoencoders or Denoising Autoencoders. 
+
+\subsection{3.1 Denoising Autoencoders}
+We can achieve the task that learning useful informations about data by adding some noise to input data. 
+\begin{tikzpicture}
+
+      \node[inner sep=3pt] (z) at (-0.4,-1.15){$\cdots$};
+      \node[circle,draw=black,minimum size=0.2cm,inner sep=3pt] (a) at (-1,0){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (b) at (-1,-0.5){};
+      
+      \node[] (e) at (0.2,0){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (f) at (1.3,-0.6){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (g) at (1.3,-1.1){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (h) at (1.3,-1.6){};
+      
+      \node[inner sep=3pt] (z) at (-1,-1.03){$\vdots$};
+     
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (c) at (-1,-1.7){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (d) at (-1,-2.2){};
+      \node[] (w) at (-2.3,-1.1){$\mathbf{\tilde{x}} \sim p_{N}(\mathbf{\tilde{x}}|\mathbf{x})$};
+      \node[inner sep=3pt] (o) at (2.8,-1.15){$\cdots$};
+      \node[circle,draw=black,minimum size=0.2cm,inner sep=3pt] (i) at (3.3,0){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (j) at (3.3,-0.5){};
+      \node[inner sep=3pt] (m) at (3.3,-1.03){$\vdots$};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (k) at (3.3,-1.7){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (l) at (3.3,-2.2){};
+      
+	  \node[inner sep=3pt] (m) at (1.3,-0.1){$\vdots$};      
+	  \node[inner sep=3pt] (m) at (1.3,-1.9){$\vdots$};      
+      
+      
+      \tiny
+      \node[] (n) at (3.9,-1.14){$L(\mathbf{x},\mathbf{\hat{x}})$};
+      
+      \node[inner sep=3pt] (p) at (-0.05,-2.3){$E$};
+      \node[inner sep=3pt] (r) at (2.4,-2.3){$D$};
+      
+      \draw[->] (w) -- (a);
+      \draw[->] (w) -- (b);
+      \draw[->] (w) -- (c);
+      \draw[->] (w) -- (d);
+      \draw[dashed,->] (a) -- (f);
+      \draw[dashed,->] (a) -- (g);
+      \draw[dashed,->] (a) -- (h);
+      \draw[dashed,->] (b) -- (f);
+      \draw[dashed,->] (b) -- (g);
+      \draw[dashed,->] (b) -- (h);
+      \draw[dashed,->] (c) -- (f);
+      \draw[dashed,->] (c) -- (g);
+      \draw[dashed,->] (c) -- (h);
+      \draw[dashed,->] (d) -- (f);
+      \draw[dashed,->] (d) -- (g);
+      \draw[dashed,->] (d) -- (h);
+      \draw[dashed,->] (f) -- (i);
+      \draw[dashed,->] (f) -- (j);
+      \draw[dashed,->] (f) -- (k);
+      \draw[dashed,->] (f) -- (l);
+      \draw[dashed,->] (g) -- (i);
+      \draw[dashed,->] (g) -- (j);
+      \draw[dashed,->] (g) -- (k);
+      \draw[dashed,->] (g) -- (l);
+      \draw[dashed,->] (h) -- (i);
+      \draw[dashed,->] (h) -- (j);
+      \draw[dashed,->] (h) -- (k);
+      \draw[dashed,->] (h) -- (l);
+      \draw[->] (i) -- (n);
+      \draw[->] (j) -- (n);
+      \draw[->] (k) -- (n);
+      \draw[->] (l) -- (n);
+    \end{tikzpicture}
+In other words, we can achive it by changing the reconstruction loss. We defined our minimization,
+$$\min\limits_{\theta} L = \nabla_\theta L(\mathbf{x}, D(E(\mathbf{x}))) =\nabla_\theta L(\mathbf{x}, \mathbf{\hat{x}}) $$
+To perform the denoising, the input $\mathbf{x}$ is corrupted into $\mathbf{\tilde{x}}$ through stochastic mapping  of $\mathbf{\tilde{x}} \sim p_{N}(\mathbf{\tilde{x}}|x)$. Then the noisy (corrupted) input is used for encoding and decoding parts
+$$\mathbf{h} = E(\mathbf{\tilde{x}})$$
+$$\mathbf{\hat{x}} = D(\mathbf{h}) = D(E(\mathbf{\tilde{x}})_{\mathbf{\tilde{x}} \sim p_{N}(\mathbf{\tilde{x}}|x)})$$
+Then the minimization task is updated as 
+$$\min\limits_{\theta} L = \nabla_\theta L(\mathbf{x}, D(E(\mathbf{\tilde{x}})_{\mathbf{\tilde{x}} \sim p_{N}(\mathbf{\tilde{x}}|x)})) =\nabla_\theta L(\mathbf{x}, \mathbf{\hat{x}}) $$
+The denoising can be seen as forcing our model to learn latent features of our input by adding noise to input then penalizing with reconstruction loss $L(\mathbf{x}, \mathbf{\hat{x}})$.
+\subsection{Sparse Autoencoders}
+The sparsity simply comes from adding a shrinkage method to reconstruction loss like in machine learning tasks.
+\begin{tikzpicture}
+
+      \node[inner sep=3pt] (z) at (-0.4,-1.15){$\cdots$};
+      \node[circle,draw=black,minimum size=0.2cm,inner sep=3pt] (a) at (-1,0){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (b) at (-1,-0.5){};
+      
+      \node[] (e) at (0.2,0){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (f) at (1.3,-0.6){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (g) at (1.3,-1.1){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (h) at (1.3,-1.6){};
+      
+      \node[inner sep=3pt] (z) at (-1,-1.03){$\vdots$};
+     
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (c) at (-1,-1.7){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (d) at (-1,-2.2){};
+      \node[] (w) at (-2.3,-1.1){$\mathbf{x}$};
+      \node[inner sep=3pt] (o) at (2.8,-1.15){$\cdots$};
+      \node[circle,draw=black,minimum size=0.2cm,inner sep=3pt] (i) at (3.3,0){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (j) at (3.3,-0.5){};
+      \node[inner sep=3pt] (m) at (3.3,-1.03){$\vdots$};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (k) at (3.3,-1.7){};
+      \node[circle,draw=black,minimum size=0.1cm,inner sep=3pt] (l) at (3.3,-2.2){};
+      
+	  \node[inner sep=3pt] (m) at (1.3,-0.1){$\vdots$};      
+	  \node[inner sep=3pt] (m) at (1.3,-1.9){$\vdots$};      
+      
+      
+      \tiny
+      \node[] (n) at (4.5,-1.14){$L(\mathbf{x},\mathbf{\hat{x}})+\Psi(E(\mathbf{x}))$};
+      
+      \node[inner sep=3pt] (p) at (-0.05,-2.3){$E$};
+      \node[inner sep=3pt] (r) at (2.4,-2.3){$D$};
+      
+      \draw[->] (w) -- (a);
+      \draw[->] (w) -- (b);
+      \draw[->] (w) -- (c);
+      \draw[->] (w) -- (d);
+      \draw[dashed,->] (a) -- (f);
+      \draw[dashed,->] (a) -- (g);
+      \draw[dashed,->] (a) -- (h);
+      \draw[dashed,->] (b) -- (f);
+      \draw[dashed,->] (b) -- (g);
+      \draw[dashed,->] (b) -- (h);
+      \draw[dashed,->] (c) -- (f);
+      \draw[dashed,->] (c) -- (g);
+      \draw[dashed,->] (c) -- (h);
+      \draw[dashed,->] (d) -- (f);
+      \draw[dashed,->] (d) -- (g);
+      \draw[dashed,->] (d) -- (h);
+      \draw[dashed,->] (f) -- (i);
+      \draw[dashed,->] (f) -- (j);
+      \draw[dashed,->] (f) -- (k);
+      \draw[dashed,->] (f) -- (l);
+      \draw[dashed,->] (g) -- (i);
+      \draw[dashed,->] (g) -- (j);
+      \draw[dashed,->] (g) -- (k);
+      \draw[dashed,->] (g) -- (l);
+      \draw[dashed,->] (h) -- (i);
+      \draw[dashed,->] (h) -- (j);
+      \draw[dashed,->] (h) -- (k);
+      \draw[dashed,->] (h) -- (l);
+      \draw[->] (i) -- (n);
+      \draw[->] (j) -- (n);
+      \draw[->] (k) -- (n);
+      \draw[->] (l) -- (n);
+    \end{tikzpicture}\\
+The minimization will be
+$$\min\limits_{\theta} L = \nabla_\theta L(\mathbf{x}, D(E(\mathbf{x}))) + \underbrace{\Psi(E(\mathbf{x}))}_{\text sparisty} =\nabla_\theta L(\mathbf{x}, \mathbf{\hat{x}}) $$
+This procedure can be interpreted as Bayesian inference with terms of posterior, likelihood and prior: $posterior \propto likelihood \times prior$. From this point maximizing the likelihood is equivalent to maximizing the posterior
+$$\max\limits_{\theta} p(\theta,\mathbf{x})=\max\limits_{\theta} p(\mathbf{x},\theta) \cdot p(\theta)$$
+$$=\max\limits_{\theta}\log p(\mathbf{x} | \theta) + \log p(\theta)$$ 
+Now we can write our joint distribution in terms of prior of $\mathbf{h}$ and it's factor seeing  $\mathbf{x}$ 
+$$p_{model}(\mathbf{x},\mathbf{h}) = p_{model}(\mathbf{x}|h) \cdot p_{model}(\mathbf{h})$$
+From this point, we can rewrite our likelihood and propose a prior distribution. 
+$$\log p_{model}(x,h) = \log p_{model}(\mathbf{x}|\mathbf{h}) \cdot p_{model}(\mathbf{h})$$
+For simplicity, let us consider a zero-mean Laplacean prior
+$$ Lap(h_i|\mu=0,\lambda) = \frac{\lambda}{2}\exp(-\lambda|h_i - \mu|)$$
+$$ = \frac{\lambda}{2}\exp(-\lambda|h_i |)$$
+Then the posterior becomes
+$$\prod p_{model}(\mathbf{x}|h) \cdot \prod  p_{model}(h)$$
+$$= \sum \log p_{model}(\mathbf{x}|h) + \sum \log  p_{model}(h)$$
+$$ = \sum \log p_{model}(\mathbf{x}|h) - \lambda \sum |h|$$  
+Other prior distributions like Student-t, Gaussian ($\text{L}_1$)  can make an impact for sparsity.
 \end{document}
