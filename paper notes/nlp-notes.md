@@ -101,6 +101,12 @@
 	- GPT vs. BERT.
 	- GLUE Benchmarks.
 
+- [ICON: Interactive Conversational Memory Network for Multimodal Emotion Detection (Hazarika et al., 2018)](https://aclanthology.org/D18-1280/)
+	- multimodal features: visual & speech & text.
+	- concatenating visual, speech and text representations at first level.
+	- memory networks with GRU: read/write.
+
+
 - [Cross-lingual Language Model Pretraining (Lample et al., 2019)](https://arxiv.org/abs/1901.07291)
 	- novel unspuervised method for learning cross-lingual representation.
 	- novel supervised method for cross-lingual pretraining.
@@ -131,3 +137,26 @@
 	- dynamically changing the masking pattern applied to the training data.
 	- larger byte-level BPE vocabulary.
 	- segment-pairs.
+
+- [SpanBERT: Improving Pre-training by Representing and Predicting Spans (Joshi et al., 2019)](https://arxiv.org/abs/1907.10529)
+	- masking contiguous random spans, rather than random tokens.
+	- the span-boundary objective encourages the model to store this span-level in- formation at the boundary tokens.
+	- span length l ~ Geo(0.2), l_max = 10 -> mean(l) = 3.8
+	- all the tokens in a span are re- placed with \[MASK\]or sampled tokens.
+	- L(xi) = L\_MLM(xi) + L\_SBO(xi)
+	- Good performance on QA and coreference resolution.
+
+- [Contextualized Emotion Recognition in Conversation as Sequence Tagging (Wang et al., 2020)](https://aclanthology.org/2020.sigdial-1.23/)
+	- global context encoder with transformer encoder and individual context encoder with unidirectional LSTM for utterances
+	- their approach is more like a NER task. Decoding emotions of utterances with a Conditional Random Field at the top of the model.
+	- state-of-the-art on DailyDialog.
+
+- [DCR-Net: A Deep Co-Interactive Relation Network for Joint Dialog Act Recognition and Sentiment Classification (Qin et al., 2020)](https://arxiv.org/abs/2008.06914)
+	- utterance encoding with bi-LSTM at first layer, self-attention for dialogue and semantic representations.
+	- different co-interactive relation layers.
+	- different decoding layers for act and semantics of utterances.
+
+- [COSMIC: COmmonSense knowledge for eMotion Identification in Conversations (Ghosal et al., 2020)](https://arxiv.org/abs/2010.02795)
+	- RoBERTa for extracting utterances’ contextualized representations.
+	- extracting commonsense features with commonsense transformer model COMET: intent of speaker, effect on speaker, reaction of speaker, effect of listeners, reaction of listeners.
+
