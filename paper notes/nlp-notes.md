@@ -146,6 +146,13 @@
 	- L(xi) = L\_MLM(xi) + L\_SBO(xi)
 	- Good performance on QA and coreference resolution.
 
+- [ALBERT: A Lite BERT for Self-supervised Learning of Language Representations (Lan et al., 2019)](https://arxiv.org/abs/1909.11942)
+	- sentence order prediction objective.
+	- factorized embedding parameterization and cross-layer parameter sharing.
+	- main reason behind NSP’s ineffectiveness is its lack of difficulty as a task, as compared to MLM.
+	- sentence order prediction loss is based primarily on coherence. 
+	- removing dropout to further increase their model capacity.
+
 - [Contextualized Emotion Recognition in Conversation as Sequence Tagging (Wang et al., 2020)](https://aclanthology.org/2020.sigdial-1.23/)
 	- global context encoder with transformer encoder and individual context encoder with unidirectional LSTM for utterances
 	- their approach is more like a NER task. Decoding emotions of utterances with a Conditional Random Field at the top of the model.
