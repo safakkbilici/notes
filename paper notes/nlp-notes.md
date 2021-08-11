@@ -153,13 +153,22 @@
 	- sentence order prediction loss is based primarily on coherence. 
 	- removing dropout to further increase their model capacity.
 
-- [ELECTRA: Pre-training Text Encoders as Discriminators Rather Than Generators](https://arxiv.org/abs/2003.10555) 
+- [BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension (Lewis et al., 2019)](https://arxiv.org/abs/1910.13461)
+	- denoising autoencoder that maps a corrupted document to the original document it was derived from.
+	- token masking, token deletion, text infilling, sentence permutation, document rotation.
+	- ELI5, XSum, ConvAI2, CNN/DM.
+	- the successful methods either use token deletion or masking, or self-attention masks.
+	- just left-to-right decoder performs poorly on SQuAD.
+
+- [ELECTRA: Pre-training Text Encoders as Discriminators Rather Than Generators (Clark et al., 2020)](https://arxiv.org/abs/2003.10555) 
 	- replaced token detection.
 	- the generator learns to predict the original identities of the masked-out tokens. The discriminator is trained to distinguish tokens in the data from tokens that have been replaced by generator samples.
 	- no backpropagation for the discriminator loss through the generator.
 	- comparison of smaller generator and smaller discriminator.
 	- experiments on weight sharing of discriminator and generator.
 	- comparison of larger electra and smaller electra.
+
+
 
 - [Contextualized Emotion Recognition in Conversation as Sequence Tagging (Wang et al., 2020)](https://aclanthology.org/2020.sigdial-1.23/)
 	- global context encoder with transformer encoder and individual context encoder with unidirectional LSTM for utterances
